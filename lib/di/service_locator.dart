@@ -1,9 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:queezy/screens/cubit/auth_cubit.dart';
+import 'package:queezy/screens/cubit/create_room_cubit.dart';
 import 'package:queezy/screens/cubit/player_scores_cubit.dart';
 import 'package:queezy/screens/cubit/queezy_list_cubit.dart';
 import 'package:queezy/routes/nav_router.dart';
 import 'package:queezy/screens/service/auth_service.dart';
+import 'package:queezy/screens/service/create_join_room.dart';
 import 'package:queezy/screens/service/queezy_service.dart';
 import 'package:queezy/screens/cubit/quiz_logic_cubit.dart';
 import 'package:queezy/service/socket_service.dart';
@@ -20,11 +22,13 @@ Future<void> setupServiceLocator() async {
 
   ///RepositoryProviders
   getIt.registerSingleton<LocalStorageService>(
-      LocalStorageService(getIt.get<SharedPreferences>()));
+    LocalStorageService(getIt.get<SharedPreferences>()),
+  );
   getIt.registerSingleton<TokenService>(TokenService());
   getIt.registerFactory<NavRouter>(() => NavRouter());
   getIt.registerSingleton<QueezyService>(QueezyService());
-  getIt.registerSingleton<AuthService>(AuthService(getIt(),getIt()));
+  getIt.registerSingleton<AuthService>(AuthService(getIt(), getIt()));
+  getIt.registerSingleton<CreateJoinRoomService>(CreateJoinRoomService());
   getIt.registerLazySingleton<SocketService>(() => SocketService(getIt()));
 
   getIt.registerLazySingleton<QueezyListCubit>(() => QueezyListCubit(getIt()));
@@ -33,4 +37,5 @@ Future<void> setupServiceLocator() async {
     () => PlayerScoresCubit(getIt()),
   );
   getIt.registerFactory<AuthCubit>(() => AuthCubit(getIt()));
+  getIt.registerFactory<CreateRoomCubit>(() => CreateRoomCubit(getIt()));
 }

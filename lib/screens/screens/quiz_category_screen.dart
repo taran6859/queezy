@@ -199,6 +199,7 @@ class _QuizCategoryScreenState extends State<QuizCategoryScreen> {
                                   selectedCategory = item;
                                   print("Selected Category: $selectedCategory");
                                 });
+                                
                                 Navigator.pushNamed(
                                   context,
                                   NavRoute.quizDetails.path,arguments: selectedCategory

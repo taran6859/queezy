@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:queezy/common/common.dart';
+import 'package:queezy/screens/cubit/auth_cubit.dart';
+import 'package:queezy/screens/screens/login_signup_option_screen.dart';
+import 'package:queezy/screens/service/auth_service.dart';
 
+import '../../di/service_locator.dart';
 import 'profile_widget.dart';
 import 'search_screen.dart';
 
@@ -16,7 +21,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        actions: [Icon(Icons.settings, color: context.colorScheme.onPrimary)],
+        actions: [
+          InkWell(
+            onTap: () {
+              getIt<AuthService>().logoutUser();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder:
+                      (context) => BlocProvider(
+                        create: (context) => getIt<AuthCubit>(),
+                        child: LoginSignupOptionScreen(),
+                      ),
+                ),
+                (route) => false,
+              );
+            },
+            child: Icon(Icons.settings, color: context.colorScheme.onPrimary),
+          ),
+        ],
       ),
       body: Stack(
         children: [
@@ -55,10 +77,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     const SizedBox(height: 24),
                     const PointsContainer(),
                     const SizedBox(height: 10),
-                    SizedBox(
-                      height: 500, 
-                      child: const ProfileTabView(),
-                    ),
+                    SizedBox(height: 500, child: const ProfileTabView()),
                   ],
                 ),
               ),

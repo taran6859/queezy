@@ -50,7 +50,6 @@ class NavRouter {
     NavRoute.bottomNav.path: (context) => QuizBottomNav(),
     NavRoute.home.path: (context) => HomeScreen(),
     NavRoute.quizCategory.path: (context) => QuizCategoryScreen(),
-
     NavRoute.search.path: (context) => SearchScreen(),
     NavRoute.chooseCategory.path: (context) => ChooseCategoryScreen(),
     NavRoute.profile.path: (context) => ProfileScreen(),
@@ -72,12 +71,12 @@ class NavRouter {
       );
     }
     if (NavRoute.quizDetails.path == settings.name) {
-      final quizDetails = settings.arguments as Map<String, dynamic>;
+      final roomDetail = settings.arguments as Map<String, dynamic>;
       return MaterialPageRoute(
         builder:
             (context) => BlocProvider(
               create: (context) => getIt<QueezyListCubit>(),
-              child: QuizDetailsScreen(quizDetails: quizDetails),
+              child: QuizDetailsScreen(roomDetail: roomDetail),
             ),
       );
     }

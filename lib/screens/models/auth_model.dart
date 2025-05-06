@@ -1,3 +1,5 @@
+import 'package:queezy/common/common.dart'; // Ensure baseUrl is defined here
+
 class AuthModel {
   int? success;
   String? token;
@@ -10,14 +12,14 @@ class AuthModel {
     success = json['success'];
     token = json['token'];
     refreshToken = json['refresh_token'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['token'] = this.token;
-    data['refresh_token'] = this.refreshToken;
+    final Map<String, dynamic> data = {};
+    data['success'] = success;
+    data['token'] = token;
+    data['refresh_token'] = refreshToken;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -34,21 +36,29 @@ class Data {
 
   Data({this.id, this.name, this.email, this.avatar, this.createdAt});
 
+  static String? _localPathFromJson(String? image) {
+    if (image == null) return null;
+
+    if (image.startsWith("http")) return image;
+    
+    return "${baseUrl.replaceAll(RegExp(r'/+$'), '')}/$image";
+  }
+
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     email = json['email'];
-    avatar = json['avatar'];
+    avatar = _localPathFromJson(json['avatar']); 
     createdAt = json['createdAt'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['avatar'] = this.avatar;
-    data['createdAt'] = this.createdAt;
+    final Map<String, dynamic> data = {};
+    data['id'] = id;
+    data['name'] = name;
+    data['email'] = email;
+    data['avatar'] = avatar;
+    data['createdAt'] = createdAt;
     return data;
   }
 }

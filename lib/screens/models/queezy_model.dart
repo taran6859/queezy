@@ -1,4 +1,4 @@
-import 'package:queezy/screens/models/room_model.dart';
+import 'create_room_model.dart';
 
 class Queezy {
   int? sessionId;
